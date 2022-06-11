@@ -72,9 +72,11 @@ jobs:
                       })
 
             - name: Terraform Plan Status
+              working-directory: ./infra
               if: steps.plan.outcome == 'failure'
               run: exit 1
 
             - name: Terraform Apply
+              working-directory: ./infra
               if: github.ref == 'refs/heads/main' && github.event_name == 'push'
               run: terraform apply -auto-approve -input=false
