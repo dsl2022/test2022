@@ -5,7 +5,7 @@ schema {
 
 type Query {
     getAllChannels(count: Int, nextToken: String): PaginatedChannels
-    getChannel(id: ID): Channel
+    getChannel(id: Int): Channel
 }
 
 type PaginatedChannels {
@@ -14,10 +14,10 @@ type PaginatedChannels {
 }
 
 type Mutation {
-    createChannel(id: ID!, name: String!): Channel
+    createChannel(id: Int!, name: String!): Channel
 }
 
 type Channel {
-    id: ID
+    id: Int
     name: String
 }
