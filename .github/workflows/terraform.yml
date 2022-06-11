@@ -22,13 +22,13 @@ jobs:
 
             - name: Terraform Format
               working-directory: ./infra
-              id: pwd
-              run: pwd
+              id: fmt
+              run: terraform fmt
 
             - name: Terraform Init
               working-directory: ./infra
               id: init
-              run: terraform init
+              run: terraform init -upgrade
 
             - name: Terraform Validate
               working-directory: ./infra
@@ -39,7 +39,7 @@ jobs:
               working-directory: ./infra
               id: plan
               if: github.event_name == 'pull_request'
-              run: terraform plan -no-color -input=false
+              run: terraform plan
               continue-on-error: true
 
             - uses: actions/github-script@v6
