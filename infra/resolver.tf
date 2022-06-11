@@ -9,7 +9,8 @@ resource "aws_appsync_resolver" "add_channel_resolver" {
     "version": "2018-05-29",
     "operation": "PutItem",
     "key": {
-        "id":$util.dynamodb.toDynamoDBJson($ctx.args.id)
+        "id":$util.dynamodb.toDynamoDBJson($ctx.args.id),
+        "type": $util.dynamodb.toDynamoDBJson("message")
     },
     "attributeValues": {        
         "name": $util.dynamodb.toDynamoDBJson($ctx.args.name)
@@ -66,22 +67,33 @@ resource "aws_appsync_resolver" "get_all_channel_resolver" {
   data_source = aws_appsync_datasource.query_channel.name
 
   request_template = <<EOF
-    {
+        {
         "version" : "2017-02-28",
-        "operation" : "Scan"
-        #if($context.arguments.count)
+        "operation" : "Query",
+         "query":{
+         	"expression":"#type = :type",
+            "expressionNames":{
+            	"#type":"type"
+            },
+            "expressionValues":{
+            	":type": $util.dynamodb.toDynamoDBJson("message")
+            }
+         },
+         "index":"sort-by-nummber-id",
+         "scanIndexForward":true        
+        #if( $context.arguments.count )
             ,"limit": $util.toJson($context.arguments.count)
         #end
-        #if($context.arguments.nextToken)
+        #if( $context.arguments.nextToken )
             ,"nextToken": $util.toJson($context.arguments.nextToken)
         #end
     }
 EOF
 
   response_template = <<EOF
-   {
-    "channels": $util.toJson($context.result.channels)
-    #if($context.result.nextToken)
+      {
+    "channels": $util.toJson($context.result.items)
+    #if( $context.result.nextToken )
         ,"nextToken": $util.toJson($context.result.nextToken)
     #end
 }
