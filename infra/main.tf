@@ -37,7 +37,7 @@ data "local_file" "schema" {
 resource "aws_appsync_graphql_api" "message_channel" {
   authentication_type = "API_KEY"
   name                = "message-channel"
-  schema = file("${path.module}/../schema.graphql")
+  schema              = file("${path.module}/../schema.graphql")
 }
 
 resource "aws_appsync_datasource" "add_channel" {
