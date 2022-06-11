@@ -1,0 +1,23 @@
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type Query {
+    getAllChannels(count: Int, nextToken: String): PaginatedChannels
+    getChannel(id: ID): Channel
+}
+
+type PaginatedChannels {
+    channels: [Channel]
+    nextToken: String
+}
+
+type Mutation {
+    createChannel(id: ID!, name: String!): Channel
+}
+
+type Channel {
+    id: ID
+    name: String
+}
