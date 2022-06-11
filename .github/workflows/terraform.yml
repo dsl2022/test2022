@@ -22,13 +22,13 @@ jobs:
 
             - name: Terraform Format
               working-directory: ./infra
-              id: pwd
-              run: pwd
+              id: fmt
+              run: terraform fmt -check
 
             - name: Terraform Init
               working-directory: ./infra
               id: init
-              run: terraform init
+              run: terraform init -upgrade
 
             - name: Terraform Validate
               working-directory: ./infra
