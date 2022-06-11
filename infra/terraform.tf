@@ -9,7 +9,7 @@ terraform {
       version = "3.0.1"
     }
   }
-  required_version = ">= 1.1.0"
+  required_version = ">= 0.12"
 
   cloud {
     organization = "dsl-2022"
