@@ -15,9 +15,6 @@ jobs:
               uses: actions/checkout@v3
 
             - name: Setup Terraform
-              working-directory: ./infra
-              id: dir-pwd
-              run: pwd
               uses: hashicorp/setup-terraform@v1
               with:
                   # terraform_version: 0.13.0:
@@ -25,8 +22,8 @@ jobs:
 
             - name: Terraform Format
               working-directory: ./infra
-              id: fmt
-              run: terraform fmt -check
+              id: pwd
+              run: pwd
 
             - name: Terraform Init
               working-directory: ./infra
