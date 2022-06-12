@@ -120,12 +120,11 @@ resource "aws_appsync_resolver" "add_channel_message_resolver" {
     "operation": "PutItem",
     "key": {
         "id":$util.dynamodb.toDynamoDBJson($ctx.args.id),
-        "type": $util.dynamodb.toDynamoDBJson("message")
+        "channel": $util.dynamodb.toDynamoDBJson($ctx.args.channel)
     },
     "attributeValues": {        
         "title": $util.dynamodb.toDynamoDBJson($ctx.args.title),
-        "content": $util.dynamodb.toDynamoDBJson($ctx.args.content),
-        "channel": $util.dynamodb.toDynamoDBJson($ctx.args.channel),
+        "content": $util.dynamodb.toDynamoDBJson($ctx.args.content),        
         "createdAt": $util.dynamodb.toDynamoDBJson($ctx.args.createdAt)
         }
 }
@@ -165,13 +164,7 @@ resource "aws_appsync_resolver" "get_all_messages_resolver" {
             }
          },
          "index":"sort-by-nummber-id",
-         "scanIndexForward":true,
-         "filter": {
-            "expression": "contains (channel, :channel)",
-            "expressionValues": {
-            ":channel": $util.dynamodb.toDynamoDBJson($context.arguments.channel)
-          }
-        }    
+         "scanIndexForward":true           
         #if( $context.arguments.count )
             ,"limit": $util.toJson($context.arguments.count)
         #end
