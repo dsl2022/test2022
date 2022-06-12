@@ -10,7 +10,7 @@ resource "aws_appsync_resolver" "add_channel_resolver" {
     "operation": "PutItem",
     "key": {
         "id":$util.dynamodb.toDynamoDBJson($ctx.args.id),
-        "type": $util.dynamodb.toDynamoDBJson("message")
+        "type": $util.dynamodb.toDynamoDBJson("channel")
     },
     "attributeValues": {        
         "name": $util.dynamodb.toDynamoDBJson($ctx.args.name)
@@ -76,7 +76,7 @@ resource "aws_appsync_resolver" "get_all_channel_resolver" {
             	"#type":"type"
             },
             "expressionValues":{
-            	":type": $util.dynamodb.toDynamoDBJson("message")
+            	":type": $util.dynamodb.toDynamoDBJson("channel")
             }
          },
          "index":"sort-by-nummber-id",
@@ -97,6 +97,42 @@ EOF
         ,"nextToken": $util.toJson($context.result.nextToken)
     #end
 }
+EOF
+
+  caching_config {
+    caching_keys = [
+      "$context.identity.sub",
+      "$context.arguments.id",
+    ]
+    ttl = 60
+  }
+}
+
+resource "aws_appsync_resolver" "add_channel_message_resolver" {
+  api_id      = aws_appsync_graphql_api.message_channel.id
+  field       = "createMessage"
+  type        = "Mutation"
+  data_source = aws_appsync_datasource.add_message.name
+
+  request_template = <<EOF
+{
+    "version": "2018-05-29",
+    "operation": "PutItem",
+    "key": {
+        "id":$util.dynamodb.toDynamoDBJson($ctx.args.id),
+        "type": $util.dynamodb.toDynamoDBJson("message")
+    },
+    "attributeValues": {        
+        "title": $util.dynamodb.toDynamoDBJson($ctx.args.title)
+        "content": $util.dynamodb.toDynamoDBJson($ctx.args.content)
+        "channel": $util.dynamodb.toDynamoDBJson($ctx.args.channel)
+        "createdAt": $util.dynamodb.toDynamoDBJson($ctx.args.createdAt)
+        }
+}
+EOF
+
+  response_template = <<EOF
+    $util.toJson($context.result)
 EOF
 
   caching_config {
