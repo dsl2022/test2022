@@ -83,7 +83,7 @@ jobs:
               run: exit 1
             - name: Build Lambda Function
               id: build-lambda
-              run: npm run build
+              run: npm install && npm run build
               continue-on-error: true
             - name: Terraform Apply
               working-directory: ./infra
