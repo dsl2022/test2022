@@ -6,28 +6,6 @@ locals {
 }
 
 # -----------------------------------------------------------------------------
-# Lambda: function Hello World
-# -----------------------------------------------------------------------------
-# data "archive_file" "function_archive" {
-#   type        = "zip"
-#   source_dir  = "${path.module}/../dist"
-#   output_path = "${path.module}/../dist/function.zip"
-# }
-
-# resource "aws_lambda_function" "lambdaHello" {
-#   filename         = data.archive_file.function_archive.output_path
-#   function_name    = "${var.namespace}-lambda-hello-ts"
-#   role             = aws_iam_role.lambda_role.arn
-#   handler          = "index.handler"
-#   source_code_hash = data.archive_file.function_archive.output_base64sha256
-
-#   # Lambda Runtimes can be found here: https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html
-#   runtime     = "nodejs16.x"
-#   timeout     = "30"
-#   memory_size = 128
-# }
-
-# -----------------------------------------------------------------------------
 # AppSync: General
 # -----------------------------------------------------------------------------
 data "local_file" "schema" {
