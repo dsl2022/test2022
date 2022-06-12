@@ -83,7 +83,7 @@ jobs:
               run: exit 1
             - name: Build Lambda Function
               id: build-lambda
-              run: npm install --legacy-peer-deps && npm run build
+              run: npm install --legacy-peer-deps && npm run build && pwd && ls
               continue-on-error: true
             - name: Terraform Apply
               working-directory: ./infra
