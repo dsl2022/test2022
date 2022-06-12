@@ -5,6 +5,8 @@ schema {
 
 type Query {
     getAllChannels(count: Int, nextToken: String): PaginatedChannels
+    getAllMessages(channelId: ID!): [Message]
+    getMessage(messageId: ID!): Message
     getChannel(id: Int): Channel
 }
 
@@ -15,9 +17,18 @@ type PaginatedChannels {
 
 type Mutation {
     createChannel(id: Int!, name: String!): Channel
+    createMessage(id: Int!, title: String!, content: String!, channel: Int!, createdAt: AWSDate): Message
 }
 
 type Channel {
     id: Int
     name: String
+}
+
+type Message {
+    id: Int
+    title: String
+    content: String
+    channel: Int
+    createdAt: AWSDate
 }

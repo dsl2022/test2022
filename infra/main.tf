@@ -62,6 +62,16 @@ resource "aws_appsync_datasource" "query_channel" {
   }
 }
 
+resource "aws_appsync_datasource" "add_message" {
+  api_id           = aws_appsync_graphql_api.message_channel.id
+  name             = "add_messages"
+  service_role_arn = aws_iam_role.ddb_resolver.arn
+  type             = "AMAZON_DYNAMODB"
+
+  dynamodb_config {
+    table_name = aws_dynamodb_table.message_channel_messages.name
+  }
+}
 
 # -----------------------------------------------------------------------------
 # AppSync: IAM
