@@ -1,6 +1,12 @@
 name: 'Terraform'
-
 on:
+    workflow_dispatch:
+        inputs:
+            job:
+                description: 'destroy'
+                required: true
+                default: 'destroy'
+
     push:
         branches:
             - main
@@ -81,17 +87,8 @@ jobs:
               if: github.ref == 'refs/heads/main' && github.event_name == 'push'
               run: terraform apply -auto-approve -input=false
 
-name: 'Terraform Destroy'
-
-on: 
-    workflow_dispatch:
-        branches:
-            - main
-    pull_request:
-        types: [completed]
-jobs:
     destroy:
-        name: 'Destroy'        
+        name: 'Destroy'
         runs-on: ubuntu-latest
         steps:
             - name: Checkout
