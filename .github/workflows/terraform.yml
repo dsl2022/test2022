@@ -83,7 +83,10 @@ jobs:
 
 name: 'Terraform Destroy'
 
-on: workflow_dispatch
+on: 
+    workflow_dispatch:
+        branches:
+            - main
     pull_request:
         types: [completed]
 jobs:
