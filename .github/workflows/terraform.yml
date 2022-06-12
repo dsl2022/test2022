@@ -1,6 +1,12 @@
 name: 'Terraform'
-
 on:
+    # workflow_dispatch:
+    #     inputs:
+    #         job:
+    #             description: 'destroy'
+    #             required: true
+    #             default: 'destroy'
+
     push:
         branches:
             - main
@@ -81,27 +87,19 @@ jobs:
               if: github.ref == 'refs/heads/main' && github.event_name == 'push'
               run: terraform apply -auto-approve -input=false
 
-name: 'Terraform Destroy'
-
-on: 
-    workflow_dispatch:
-        branches:
-            - main
-    pull_request:
-        types: [completed]
-jobs:
-    destroy:
-        name: 'Destroy'        
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v3
-            - name: Setup Terraform
-              uses: hashicorp/setup-terraform@v1
-              with:
-                  # terraform_version: 0.13.0:
-                  cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
-            - name: Terraform Destroy
-              working-directory: ./infra
-              id: destroy
-              run: terraform destroy -auto-approve
+    # destroy:
+    #     name: 'Destroy'
+    #     runs-on: ubuntu-latest
+    #     needs: terraform
+    #     steps:
+    #         - name: Checkout
+    #           uses: actions/checkout@v3
+    #         - name: Setup Terraform
+    #           uses: hashicorp/setup-terraform@v1
+    #           with:
+    #               # terraform_version: 0.13.0:
+    #               cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+    #         - name: Terraform Destroy
+    #           working-directory: ./infra
+    #           id: destroy
+    #           run: terraform destroy -auto-approve
