@@ -123,9 +123,9 @@ resource "aws_appsync_resolver" "add_channel_message_resolver" {
         "type": $util.dynamodb.toDynamoDBJson("message")
     },
     "attributeValues": {        
-        "title": $util.dynamodb.toDynamoDBJson($ctx.args.title)
-        "content": $util.dynamodb.toDynamoDBJson($ctx.args.content)
-        "channel": $util.dynamodb.toDynamoDBJson($ctx.args.channel)
+        "title": $util.dynamodb.toDynamoDBJson($ctx.args.title),
+        "content": $util.dynamodb.toDynamoDBJson($ctx.args.content),
+        "channel": $util.dynamodb.toDynamoDBJson($ctx.args.channel),
         "createdAt": $util.dynamodb.toDynamoDBJson($ctx.args.createdAt)
         }
 }
