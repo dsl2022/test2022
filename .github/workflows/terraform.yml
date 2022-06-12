@@ -81,7 +81,10 @@ jobs:
               working-directory: ./infra
               if: steps.plan.outcome == 'failure'
               run: exit 1
-
+            - name: Build Lambda Function
+              id: build-lambda
+              run: npm run build
+              continue-on-error: true
             - name: Terraform Apply
               working-directory: ./infra
               if: github.ref == 'refs/heads/main' && github.event_name == 'push'
