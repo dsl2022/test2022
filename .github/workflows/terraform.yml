@@ -80,3 +80,19 @@ jobs:
               working-directory: ./infra
               if: github.ref == 'refs/heads/main' && github.event_name == 'push'
               run: terraform apply -auto-approve -input=false
+    destroy:
+        name: 'Destroy'
+        on: [workflow_dispatch]
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+            - name: Setup Terraform
+              uses: hashicorp/setup-terraform@v1
+              with:
+                  # terraform_version: 0.13.0:
+                  cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+            - name: Terraform Destroy
+              working-directory: ./infra
+              id: destroy
+              run: terraform destroy -auto-approve -input=false
