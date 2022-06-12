@@ -165,7 +165,7 @@ resource "aws_appsync_resolver" "get_all_messages_resolver" {
             }
          },
          "index":"sort-by-nummber-id",
-         "scanIndexForward":true
+         "scanIndexForward":true,
          "filter": {
             "expression": "contains (channel, :channel)",
             "expressionValues": {
