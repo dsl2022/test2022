@@ -3,6 +3,7 @@ import { handlerHello } from './hello';
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
 export async function handler(event: any, context: any, callback: any) {
+    console.log('event', event.Records);
     switch (event.resolve) {
         case 'hello':
             callback(null, handlerHello());
