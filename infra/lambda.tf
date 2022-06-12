@@ -3,8 +3,8 @@
 # -----------------------------------------------------------------------------
 data "archive_file" "function_archive" {
   type        = "zip"
-  source_dir  = "../dist"
-  output_path = "../dist/function.zip"
+  source_dir  = "${path.module}/dist"
+  output_path = "${path.module}/dist/function.zip"
 }
 
 resource "aws_lambda_function" "ddb_stream_consumer" {
