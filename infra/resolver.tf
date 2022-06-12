@@ -120,11 +120,12 @@ resource "aws_appsync_resolver" "add_channel_message_resolver" {
     "operation": "PutItem",
     "key": {
         "id":$util.dynamodb.toDynamoDBJson($ctx.args.id),
-        "channel": $util.dynamodb.toDynamoDBJson($ctx.args.channel)
+        "type": $util.dynamodb.toDynamoDBJson("message")
     },
     "attributeValues": {        
         "title": $util.dynamodb.toDynamoDBJson($ctx.args.title),
-        "content": $util.dynamodb.toDynamoDBJson($ctx.args.content),        
+        "content": $util.dynamodb.toDynamoDBJson($ctx.args.content),
+        "channel": $util.dynamodb.toDynamoDBJson($ctx.args.channel),
         "createdAt": $util.dynamodb.toDynamoDBJson($ctx.args.createdAt)
         }
 }
@@ -155,16 +156,16 @@ resource "aws_appsync_resolver" "get_all_messages_resolver" {
         "version" : "2017-02-28",
         "operation" : "Query",
          "query":{
-         	"expression":"#type = :type",
+         	"expression":"#channel = :channel",
             "expressionNames":{
-            	"#type":"type"
+            	"#channel":"channel"
             },
             "expressionValues":{
-            	":type": $util.dynamodb.toDynamoDBJson("message")
+            	":channel": $util.dynamodb.toDynamoDBJson($context.arguments.channel)
             }
          },
          "index":"sort-by-nummber-id",
-         "scanIndexForward":true           
+         "scanIndexForward":true        
         #if( $context.arguments.count )
             ,"limit": $util.toJson($context.arguments.count)
         #end
@@ -176,7 +177,7 @@ EOF
 
   response_template = <<EOF
       {
-    "channels": $util.toJson($context.result.items)
+    "messages": $util.toJson($context.result.items)
     #if( $context.result.nextToken )
         ,"nextToken": $util.toJson($context.result.nextToken)
     #end
