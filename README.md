@@ -1,6 +1,14 @@
 # Multi Channels Messaging system
 
-System Architecture
+## Introduction
+
+This is a quick implementation of AWS [AppSync](https://aws.amazon.com/appsync/?trk=41731cf6-f5eb-4611-81ef-f2914ec706b5&sc_channel=ps&sc_campaign=acquisition&sc_medium=GC-PMM|PS-GO|Brand|All|PA|Mobile%20Services|Amplify|US|EN|Text|PMO22-13306&s_kwcid=AL!4422!3!588971138398!e!!g!!aws%20appsync&ef_id=CjwKCAjwnZaVBhA6EiwAVVyv9NPre8Ac7MzG7KrhuEmvRIJvAbTBWb9lIZ2K_Ih-IbZpI5_c0R7DAxoCKtAQAvD_BwE:G:s&s_kwcid=AL!4422!3!588971138398!e!!g!!aws%20appsync) graphql server of a Multi Channels Message System API. The
+resolvers were built with [dynamoDB stream](https://aws.amazon.com/blogs/big-data/monitor-your-application-for-processing-dynamodb-streams/). It also includes a lambda consumer function to consume the
+stream and send SNS email notification when new channels or messages are created. The infrastructure was
+spinned up through [Terraform](https://www.terraform.io/) and the lambda function were setup with Typescript. The whole application is
+desployed and managed through [github action](https://docs.github.com/en/actions/managing-workflow-runs/manually-running-a-workflow).
+
+## System Architecture
 
 ![img](/assets/architecture_diagram.png)
 
@@ -8,44 +16,22 @@ Deployment Architecture
 
 ![img](/assets/deployment.png)
 
-Initial seeding some data to db
+## To Query through Postman
 
-```
-mutation addChannels {
-  channel1: createChannel(id:1 name:"modern") { name }
-  channel2: createChannel(id:2 name:"history") { name }
-  channel3: createChannel(id:3 name:"technology") { name }
-}
-```
+import [this collection]("multi-channel-message.postman_collection.json")
 
-```
-mutation addMessages {
-  channel1: createMessage(id:1 ,channel:1,content:"a test message",title:"modern message",createdAt:"2022-01-23"){id,title,channel,content,createdAt}
-  channel2: createMessage(id:2 ,channel:1,content:"a test message",title:"hisotry message",createdAt:"2022-02-21"){id,title,channel,content,createdAt}
-  channel3: createMessage(id:3 ,channel:2,content:"a test message",title:"techology message",createdAt:"2022-03-13"){id,title,channel,content,createdAt}
-  channel4: createMessage(id:4 ,channel:1,content:"a test message",title:"modern message",createdAt:"2022-03-03"){id,title,channel,content,createdAt}
-  channel5: createMessage(id:5 ,channel:3,content:"a test message",title:"message title",createdAt:"2022-02-13"){id,title,channel,content,createdAt}
-  channel6: createMessage(id:15,channel:3,content:"a message",title:"message title",createdAt:"2022-04-24"){id,title,channel,content,createdAt}
-  channel7: createMessage(id:14,channel:1,content:"a message",title:"message title",createdAt:"2022-05-25"){id,title,channel,content,createdAt}
-  channel8: createMessage(id:27,channel:2,content:"a message",title:"message title",createdAt:"2022-06-02"){id,title,channel,content,createdAt}
-}
-```
+## Application Cost calculation
 
-Example for querying all messages
+Query operation charges 5 million x $4.00 per million operations= $20.00
+Data transfer charges 3 KB x 5 million = 15 million KB = 14.3 GB \* $0.09 = $1.29
+Total AppSync charges $20.00 + $1.29 = \$21.29
+[appsync pricing reference](https://aws.amazon.com/appsync/pricing/)
 
-```
-{
-  getAllMessages(count: 4, channel: 2) {
-    messages {
-      content
-      createdAt
-      id
-      title
-      channel
-    }
-    nextToken
-  }
-}
-```
+Since the monthly insert of messages and channels data are insignificant, so dynamodb cost is
+not actively included here.
 
-[source](https://gist.github.com/skylinezum/fb789509faea5dda4442e4d7dfe1342f)
+## Test
+
+There is currently no integration testings implemented.
+
+[challenge source](https://gist.github.com/skylinezum/fb789509faea5dda4442e4d7dfe1342f)
