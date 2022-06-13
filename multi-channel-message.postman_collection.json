@@ -1,207 +1,179 @@
 {
-	"info": {
-		"_postman_id": "83805231-ff63-4ba0-93ac-0363a295584f",
-		"name": "multi-channel-message",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "6748139"
-	},
-	"item": [
-		{
-			"name": "mutations",
-			"item": [
-				{
-					"name": "createChannel",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "mutation createChannel ($id: Int!, $name: String!) {\n    createChannel (id: $id, name: $name) {\n        id\n        name\n    }\n}",
-								"variables": "{\n  \"id\": 0,\n  \"name\": \"\"\n}"
-							}
-						},
-						"url": {
-							"raw": "{{url}}",
-							"host": [
-								"{{url}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "createMessage",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "mutation createMessage ($id: Int!, $title: String!, $content: String!, $channel: Int!, $createdAt: String) {\n    createMessage (id: $id, title: $title, content: $content, channel: $channel, createdAt: $createdAt) {\n        id\n        title\n        content\n        channel\n        createdAt\n    }\n}",
-								"variables": "{\n  \"id\": 0,\n  \"title\": \"\",\n  \"content\": \"\",\n  \"channel\": 0,\n  \"createdAt\": \"\"\n}"
-							}
-						},
-						"url": {
-							"raw": "{{url}}",
-							"host": [
-								"{{url}}"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "queries",
-			"item": [
-				{
-					"name": "getAllChannels",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query getAllChannels ($count: Int, $nextToken: String) {\n    getAllChannels (count: $count, nextToken: $nextToken) {\n        channels {\n            id\n            name\n        }\n        nextToken\n    }\n}",
-								"variables": "{\n  \"count\": 0,\n  \"nextToken\": \"\"\n}"
-							}
-						},
-						"url": {
-							"raw": "{{url}}",
-							"host": [
-								"{{url}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "getAllMessages",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "x-api-key",
-								"value": "da2-6tj7jvrvnjctfmrnbyex6zwocu",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query getAllMessages ($count: Int, $channel: Int!) {\n    getAllMessages (count: $count, channel: $channel) {\n        messages {\n            id\n            title\n            content\n            channel\n            createdAt\n        }\n        nextToken\n    }\n}",
-								"variables": "{\n  \"count\": 2,\n  \"channel\": 2\n}"
-							}
-						},
-						"url": {
-							"raw": "https://3sblsi7zqvhztfdcrbzhtftg7i.appsync-api.us-east-1.amazonaws.com/graphql",
-							"protocol": "https",
-							"host": [
-								"3sblsi7zqvhztfdcrbzhtftg7i",
-								"appsync-api",
-								"us-east-1",
-								"amazonaws",
-								"com"
-							],
-							"path": [
-								"graphql"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "getMessage",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "x-api-key",
-								"value": "da2-6tj7jvrvnjctfmrnbyex6zwocu",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query getMessage ($id: ID!) {\n    getMessage (messageId: $id) {\n        id\n        title\n        content\n        channel\n        createdAt\n    }\n}",
-								"variables": "{\n  \"id\": 2\n}"
-							}
-						},
-						"url": {
-							"raw": "https://3sblsi7zqvhztfdcrbzhtftg7i.appsync-api.us-east-1.amazonaws.com/graphql?x=",
-							"protocol": "https",
-							"host": [
-								"3sblsi7zqvhztfdcrbzhtftg7i",
-								"appsync-api",
-								"us-east-1",
-								"amazonaws",
-								"com"
-							],
-							"path": [
-								"graphql"
-							],
-							"query": [
-								{
-									"key": "x",
-									"value": ""
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "getChannel",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query getChannel ($id: Int) {\n    getChannel (id: $id) {\n        id\n        name\n    }\n}",
-								"variables": "{\n  \"id\": 0\n}"
-							}
-						},
-						"url": {
-							"raw": "{{url}}",
-							"host": [
-								"{{url}}"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		}
-	],
-	"event": [
-		{
-			"listen": "prerequest",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		},
-		{
-			"listen": "test",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		}
-	],
-	"variable": [
-		{
-			"key": "url",
-			"value": "https://3sblsi7zqvhztfdcrbzhtftg7i.appsync-api.us-east-1.amazonaws.com/graphql",
-			"type": "any"
-		}
-	]
+    "info": {
+        "_postman_id": "83805231-ff63-4ba0-93ac-0363a295584f",
+        "name": "multi-channel-message",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "_exporter_id": "6748139"
+    },
+    "item": [
+        {
+            "name": "mutations",
+            "item": [
+                {
+                    "name": "createChannel",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "mutation createChannel ($id: Int!, $name: String!) {\n    createChannel (id: $id, name: $name) {\n        id\n        name\n    }\n}",
+                                "variables": "{\n  \"id\": 0,\n  \"name\": \"\"\n}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": ["{{url}}"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "createMessage",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "mutation createMessage ($id: Int!, $title: String!, $content: String!, $channel: Int!, $createdAt: String) {\n    createMessage (id: $id, title: $title, content: $content, channel: $channel, createdAt: $createdAt) {\n        id\n        title\n        content\n        channel\n        createdAt\n    }\n}",
+                                "variables": "{\n  \"id\": 0,\n  \"title\": \"\",\n  \"content\": \"\",\n  \"channel\": 0,\n  \"createdAt\": \"\"\n}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": ["{{url}}"]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "queries",
+            "item": [
+                {
+                    "name": "getAllChannels",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "query getAllChannels ($count: Int, $nextToken: String) {\n    getAllChannels (count: $count, nextToken: $nextToken) {\n        channels {\n            id\n            name\n        }\n        nextToken\n    }\n}",
+                                "variables": "{\n  \"count\": 0,\n  \"nextToken\": \"\"\n}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": ["{{url}}"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "getAllMessages",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "x-api-key",
+                                "value": "da2-6tj7jvrvnjctfmrnbyex6zwocu",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "query getAllMessages ($count: Int, $channel: Int!) {\n    getAllMessages (count: $count, channel: $channel) {\n        messages {\n            id\n            title\n            content\n            channel\n            createdAt\n        }\n        nextToken\n    }\n}",
+                                "variables": "{\n  \"count\": 2,\n  \"channel\": 2\n}"
+                            }
+                        },
+                        "url": {
+                            "raw": "https://3sblsi7zqvhztfdcrbzhtftg7i.appsync-api.us-east-1.amazonaws.com/graphql",
+                            "protocol": "https",
+                            "host": ["3sblsi7zqvhztfdcrbzhtftg7i", "appsync-api", "us-east-1", "amazonaws", "com"],
+                            "path": ["graphql"]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "getMessage",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "x-api-key",
+                                "value": "da2-6tj7jvrvnjctfmrnbyex6zwocu",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "query getMessage ($id: Int!) {\n    getMessage (id: $id) {\n        id\n        title\n        content\n        channel\n        createdAt\n    }\n}",
+                                "variables": "{\n  \"id\": 2\n}"
+                            }
+                        },
+                        "url": {
+                            "raw": "https://3sblsi7zqvhztfdcrbzhtftg7i.appsync-api.us-east-1.amazonaws.com/graphql?x=",
+                            "protocol": "https",
+                            "host": ["3sblsi7zqvhztfdcrbzhtftg7i", "appsync-api", "us-east-1", "amazonaws", "com"],
+                            "path": ["graphql"],
+                            "query": [
+                                {
+                                    "key": "x",
+                                    "value": ""
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "getChannel",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "query getChannel ($id: Int) {\n    getChannel (id: $id) {\n        id\n        name\n    }\n}",
+                                "variables": "{\n  \"id\": 0\n}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": ["{{url}}"]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ],
+    "event": [
+        {
+            "listen": "prerequest",
+            "script": {
+                "type": "text/javascript",
+                "exec": [""]
+            }
+        },
+        {
+            "listen": "test",
+            "script": {
+                "type": "text/javascript",
+                "exec": [""]
+            }
+        }
+    ],
+    "variable": [
+        {
+            "key": "url",
+            "value": "https://3sblsi7zqvhztfdcrbzhtftg7i.appsync-api.us-east-1.amazonaws.com/graphql",
+            "type": "any"
+        }
+    ]
 }
