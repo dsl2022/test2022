@@ -18,6 +18,11 @@ resource "aws_lambda_function" "ddb_stream_consumer" {
   runtime     = "nodejs16.x"
   timeout     = "30"
   memory_size = 128
+   environment {
+    variables = {
+      SNS_TOPIC_ARN = aws_sns_topic.topic.arn
+    }
+  }
 }
 
 
