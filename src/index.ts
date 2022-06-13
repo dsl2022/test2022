@@ -26,11 +26,4 @@ export async function handler({ Records }: { Records: any[] }) {
     } catch (e) {
         console.log(e);
     }
-    // switch (event.resolve) {
-    //     case 'hello':
-    //         callback(null, handlerHello());
-    //         break;
-    //     default:
-    //         callback('Error: no resolver found', null);
-    // }
 }

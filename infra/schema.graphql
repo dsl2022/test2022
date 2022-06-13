@@ -6,7 +6,7 @@ schema {
 type Query {
     getAllChannels(count: Int, nextToken: String): PaginatedChannels
     getAllMessages(count: Int, channel: Int!, nextToken: String): PaginatedMessages
-    getMessage(messageId: ID!): Message
+    getMessage(id: Int!): Message
     getChannel(id: Int): Channel
 }
 
