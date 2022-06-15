@@ -91,11 +91,11 @@ jobs:
 
 name: Destroy Terraform
 on: 
-  workflow_dispatch:
-    inputs:
-      git-ref:
-        description: Git Ref (Optional)    
-        required: false
+    workflow_dispatch:
+        inputs:
+            git-ref:
+                description: Git Ref (Optional)    
+                required: false
 jobs:
     deploy:
         name: Deploy To Production
