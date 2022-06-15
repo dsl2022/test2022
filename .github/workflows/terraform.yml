@@ -89,33 +89,6 @@ jobs:
               if: github.ref == 'refs/heads/main' && github.event_name == 'push'
               run: terraform apply -auto-approve -input=false
 
-name: Destroy Terraform
-on: 
-    workflow_dispatch:
-        inputs:
-            git-ref:
-                description: Git Ref (Optional)    
-                required: false
-jobs:
-    deploy:
-        name: Deploy To Production
-        runs-on: ubuntu-latest
-        steps:
-            - name: Clone Repository (Latest)
-              uses: actions/checkout@v2
-              if: github.event.inputs.git-ref == ''
-            - name: Clone Repository (Custom Ref)
-              uses: actions/checkout@v2
-              if: github.event.inputs.git-ref != ''
-              with:
-                ref: ${{ github.event.inputs.git-ref }}
-            # Now run whatever you want:
-            - name: init Terraform
-              working-directory: ./infra
-              run: terraform init -upgrade
-            - name: init Terraform
-              working-directory: ./infra
-              run: terraform destroy -auto-approve -input=false
     # destroy:
     #     name: 'Destroy'
     #     runs-on: ubuntu-latest
