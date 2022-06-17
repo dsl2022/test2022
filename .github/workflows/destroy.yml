@@ -27,6 +27,6 @@ jobs:
             - name: init Terraform
               working-directory: ./infra
               run: terraform init -upgrade
-            - name: init Terraform
+            - name: destroy Terraform
               working-directory: ./infra
               run: terraform destroy -auto-approve -input=false
